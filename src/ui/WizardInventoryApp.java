@@ -18,10 +18,18 @@ public class WizardInventoryApp {
 		System.out.println("Welcome to Wizard!");
 		String choice = "";
 
+		System.out.println("\nCOMMAND MENU:");
+		System.out.println("------------------------");
+		System.out.println("show - Show all items");
+		System.out.println("grab - Grab an item");
+		System.out.println("edit - Edit an item");
+		System.out.println("drop - Drop an item");
+		System.out.println("exit - Exit program");
+
 		List<String> itemsList = new ArrayList<>();
-		itemsList.add("wooden staff");
-		itemsList.add("wizard hat");
-		itemsList.add("cloth shoes");
+		itemsList.add("enchanted staff");
+		itemsList.add("grimoire");
+		itemsList.add("cloth satchel");
 
 		while (!choice.equalsIgnoreCase(EXIT)) {
 			choice = commandItems();
@@ -36,10 +44,10 @@ public class WizardInventoryApp {
 
 				break;
 			case EDIT:
-				System.out.println(choice + "- Edit an item");
+				setEDIT(itemsList);
 				break;
 			case DROP:
-				System.out.println(choice + "- Drop an item");
+				setDROP(itemsList);
 				break;
 			case EXIT:
 				System.out.println(choice + "- Exit program");
@@ -54,13 +62,7 @@ public class WizardInventoryApp {
 	}
 
 	public static String commandItems() {
-		System.out.println("\nCOMMAND MENU:");
-		System.out.println("------------------------");
-		System.out.println("show - Show all items");
-		System.out.println("grab - Grab an item");
-		System.out.println("edit - Edit an item");
-		System.out.println("drop - Drop an item");
-		System.out.println("exit - Exit program");
+
 		return Console.getString("Command: ");
 
 	}
@@ -69,31 +71,58 @@ public class WizardInventoryApp {
 		System.out.println("Show all items:");
 		System.out.println("---------------");
 		for (int i = 1; i <= items.size(); i++) {
-			System.out.println(i+". "+items.get(i - 1));}
+			System.out.println(i + ". " + items.get(i - 1));
+		}
 
 	}
 
-	private static void setGRAB(List<String>items) {
+	private static void setGRAB(List<String> items) {
 		System.out.println("Grab (Add) an item:");
 		System.out.println("---------------");
-		
+
 		if (items.size() >= 4) {
 			System.out.println("You can't carry any more items. Drop something first.");
-		}
-		else {
+		} else {
 			String itemName = Console.getString("Item name: ");
 			items.add(itemName);
-			System.out.println(itemName + " was added.");}
+			System.out.println(itemName + " was added.");
+		}
 
 	}
-	private static void setEdit(List<String>items) {
-		System.out.println("Edit an item:");
-		System.out.println("---------------");
-		String itemName = Console.getString("Item name: ");
-		items.add(itemName);
-		System.out.println(itemName + " was added.");}
 
-		
+	private static void setEDIT(List<String> items) {
+		boolean condition = true;
+		while (condition) {
+			System.out.println("Edit an item:");
+			System.out.println("---------------");
+			String itemName = Console.getString("Item name: ");
+			int index = items.indexOf(itemName);
+			if (index != -1) {
+				String newItemName = Console.getString("Change to: ");
+				items.set(index, newItemName);
+				System.out.println(newItemName + " was updated.");
+				condition = false;
+			} else {
+				System.out.println("Item not found in the list");
+			}
+		}
 	}
 
+	private static void setDROP(List<String> items) {
+		boolean condition = true;
+		while (condition) {
+			System.out.println("Drop an item:");
+			System.out.println("---------------");
+			String itemName = Console.getString("Item name: ");
+			int index = items.indexOf(itemName);
+			if (index != -1) {
+				items.remove(itemName);
+				System.out.println(itemName + " was dropped.");
+				condition = false;
+			} else {
+				System.out.println("Item not found in the list");
+			}
+		}
+	}
 
+}
